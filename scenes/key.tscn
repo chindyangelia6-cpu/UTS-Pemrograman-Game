@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://cd578ril5dokw"]
+
+[ext_resource type="Script" uid="uid://ca4blbhlpe2xw" path="res://scenes/key.gd" id="1_yk2u2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gold"]
+albedo_color = Color(1, 0.84, 0.15, 1)
+metallic = 0.85
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.95, 0.72, 0.08, 1)
+emission_energy_multiplier = 0.45
+
+[sub_resource type="TorusMesh" id="TorusMesh_head"]
+material = SubResource("StandardMaterial3D_gold")
+inner_radius = 0.13
+outer_radius = 0.24
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shaft"]
+material = SubResource("StandardMaterial3D_gold")
+top_radius = 0.045
+bottom_radius = 0.045
+height = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_tooth1"]
+material = SubResource("StandardMaterial3D_gold")
+size = Vector3(0.16, 0.07, 0.06)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tooth2"]
+material = SubResource("StandardMaterial3D_gold")
+size = Vector3(0.12, 0.07, 0.06)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pj0hq"]
+radius = 0.65
+
+[node name="Key" type="Area3D"]
+script = ExtResource("1_yk2u2")
+
+[node name="KeyVisual" type="Node3D" parent="."]
+
+[node name="HeadRing" type="MeshInstance3D" parent="KeyVisual"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0.32, 0)
+mesh = SubResource("TorusMesh_head")
+
+[node name="Shaft" type="MeshInstance3D" parent="KeyVisual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 0)
+mesh = SubResource("CylinderMesh_shaft")
+
+[node name="Tooth1" type="MeshInstance3D" parent="KeyVisual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, -0.28, 0)
+mesh = SubResource("BoxMesh_tooth1")
+
+[node name="Tooth2" type="MeshInstance3D" parent="KeyVisual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.16, 0)
+mesh = SubResource("BoxMesh_tooth2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_pj0hq")
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
